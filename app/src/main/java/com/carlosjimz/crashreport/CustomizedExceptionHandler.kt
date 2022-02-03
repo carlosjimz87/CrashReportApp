@@ -9,11 +9,13 @@ import java.util.*
 
 
 class CustomizedExceptionHandler(
-    private val defaultUEH: UncaughtExceptionHandler,
     private val localPath: String?
-    ) : UncaughtExceptionHandler {
-    override fun uncaughtException(t: Thread, e: Throwable) {
+) : UncaughtExceptionHandler {
 
+    private val defaultUEH: UncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+
+    override fun uncaughtException(t: Thread, e: Throwable) {
+        println("Uncaught exception executed")
         //Write a printable representation of this Throwable
         //The StringWriter gives the lock used to synchronize access to this writer.
         val stringBuffSync: Writer = StringWriter()
@@ -31,6 +33,7 @@ class CustomizedExceptionHandler(
     }
 
     private fun writeToFile(currentStacktrace: String) {
+        println("Writing file")
         try {
 
             //Gets the Android external storage directory & Create new folder Crash_Reports
@@ -54,9 +57,9 @@ class CustomizedExceptionHandler(
     }
 
     private fun getFilenameDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+        println("Creating Date")
         val date = Date().toString()
-        return dateFormat.format(date) + ".STACKTRACE"
+        return "$date.STACKTRACE"
     }
 
 }

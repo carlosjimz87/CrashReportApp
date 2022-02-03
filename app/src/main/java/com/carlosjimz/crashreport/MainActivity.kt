@@ -1,23 +1,23 @@
 package com.carlosjimz.crashreport
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.RuntimeException
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         Thread.setDefaultUncaughtExceptionHandler(
             CustomizedExceptionHandler(
-                Thread.getDefaultUncaughtExceptionHandler(),
                 "/mnt/sdcard/"
             )
         )
 
         // test the crash
-        val nullString = null;
-        println(nullString.toString())
+        throw RuntimeException("Testing")
     }
 
 }
